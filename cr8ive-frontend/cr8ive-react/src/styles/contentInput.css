@@ -1,0 +1,29 @@
+.content-input-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.current-file-container {
+  text-align: center;
+  min-width: 300px; 
+  padding: 20px; 
+  border: 1px solid #ccc; 
+  border-radius: 20px;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 200px; 
+  width: auto;
+  height: auto;
+}
+
+.Prev-Next-Button {
+  display: flex; 
+  justify-content: center; 
+  margin-top: 20px; 
+}
+
+.Prev-Next-Button button {
+  margin: 0 10px; 
+}
