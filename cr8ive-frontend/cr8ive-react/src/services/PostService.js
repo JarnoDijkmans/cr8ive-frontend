@@ -36,7 +36,42 @@ function savePost(newPost) {
     });
 }
 
+const fetchPosts = async (postRequest) => {
+  const response = await axios.post(`/api/posts`, postRequest);
+  const posts = response.data;
+  return posts;
+};
+
+const getUserPosts = async (userId) => {
+  const response = await axios.get(`${hostname}/posts/${userId}`);
+  const posts = response.data;
+
+  for (let post of posts) {
+    if (post.content && post.content.length > 0) {
+      const updatedContent = [];
+      for (let fileUrl of post.content) {
+        try {
+          const fileResponse = await axios.get(`${hostname}/api/files/${post.id}/${fileUrl}`, { responseType: 'blob' });
+
+          const blob = new Blob([fileResponse.data]);
+          const objectURL = URL.createObjectURL(blob);
+
+          updatedContent.push(objectURL);
+        } catch (error) {
+          console.error(`Failed to retrieve file: ${fileUrl}`);
+        }
+      }
+
+      post.content = updatedContent;
+    }
+  }
+
+  return posts;
+};
+
 export default {
   createPostFormData,
-  savePost
+  savePost,
+  fetchPosts,
+  getUserPosts
 };

@@ -1,6 +1,8 @@
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import CreatePostPage from '../src/pages/CreatePostPage';
+import HomePage from '../src/pages/HomePage';
 import './App.css'
+import SearchPage from "../src/pages/SearchPage";
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<CreatePostPage />} />
+          <Route path="/CreatePost" element={<HomePage /> } />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </Router>
     </div>
