@@ -49,16 +49,21 @@ const getUserPosts = async (userId) => {
   for (let post of posts) {
     if (post.content && post.content.length > 0) {
       const updatedContent = [];
-      for (let fileUrl of post.content) {
+      for (let content of post.content) {
         try {
-          const fileResponse = await axios.get(`${hostname}/api/files/${post.id}/${fileUrl}`, { responseType: 'blob' });
+          const fileResponse = await axios.get(`${hostname}/api/files/${post.id}/${content.url}`, { responseType: 'blob' });
 
-          const blob = new Blob([fileResponse.data]);
+          const blob = new Blob([fileResponse.data], { type: content.type });
           const objectURL = URL.createObjectURL(blob);
 
-          updatedContent.push(objectURL);
+          const updatedContentItem = {
+            url: objectURL,
+            type: content.type,
+          };
+
+          updatedContent.push(updatedContentItem);
         } catch (error) {
-          console.error(`Failed to retrieve file: ${fileUrl}`);
+          console.error(`Failed to retrieve file: ${content.url}`);
         }
       }
 

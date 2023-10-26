@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PostService from "../services/PostService";
-import PostCard from "../components/PostCard";
+import ProfilePage from "../components/ProfilePage";
 
 function SearchPage() {
   const [userPosts, setUserPosts] = useState([]);
@@ -40,7 +40,7 @@ function SearchPage() {
       <div className="post-list">
             {userPosts.length > 0 ? (
                 userPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
+                <ProfilePage key={post.id} post={post} />
                 ))
             ) : (
                 <p>No posts found.</p>
