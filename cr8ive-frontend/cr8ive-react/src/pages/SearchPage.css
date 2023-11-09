@@ -1,0 +1,17 @@
+.search-results {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .search-results div {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .search-results div:hover {
+    background-color: #f1f1f1;
+  }

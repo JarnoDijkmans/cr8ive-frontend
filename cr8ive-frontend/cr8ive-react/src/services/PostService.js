@@ -36,12 +36,6 @@ function savePost(newPost) {
     });
 }
 
-const fetchPosts = async (postRequest) => {
-  const response = await axios.post(`/api/posts`, postRequest);
-  const posts = response.data;
-  return posts;
-};
-
 const getUserPosts = async (userId) => {
   const response = await axios.get(`${hostname}/posts/${userId}`);
   const posts = response.data;
@@ -77,6 +71,5 @@ const getUserPosts = async (userId) => {
 export default {
   createPostFormData,
   savePost,
-  fetchPosts,
   getUserPosts
 };
