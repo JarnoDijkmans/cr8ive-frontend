@@ -1,51 +1,49 @@
 import { useState } from "react";
-import PostService from "../services/PostService";
-import PostCard from "../components/PostCard";
+import { useNavigate } from "react-router-dom";
+import UserService from "../services/UserService";
 
 function SearchPage() {
-  const [userPosts, setUserPosts] = useState([]);
-  const [searchUserId, setSearchUserId] = useState("");
+  const [searchUser, setSearchUser] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
-  const fetchUserPosts = () => {
-    PostService.getUserPosts(searchUserId)
+  const fetchUser = () => {
+    UserService.getUser(searchUser)
       .then((response) => {
         console.log('API Response:', response);
-        if (response) {
-            setUserPosts(response);
-          } else {
-            setUserPosts([]);
-          }
+        if (response && response.user) {
+          setSearchResults(response.user);
+        }
       })
       .catch((error) => {
-        console.error('Error fetching user posts:', error);
+        console.error('Error fetching user:', error);
       });
-  };
-
-  const handleSearch = () => {
-    fetchUserPosts();
   };
 
   return (
     <div>
-      <h2>For You Page</h2>
+      <h2>Discover</h2>
       <div className="search-bar">
         <input
           type="text"
-          placeholder="Enter User ID"
-          value={searchUserId}
-          onChange={(e) => setSearchUserId(e.target.value)}
+          placeholder="Search..."
+          value={searchUser}
+          onChange={(e) => {
+            setSearchUser(e.target.value);
+            fetchUser();
+          }}
         />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <div className="post-list">
-            {userPosts.length > 0 ? (
-                userPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-                ))
-            ) : (
-                <p>No posts found.</p>
-            )}
+        <div className="search-results">
+          {searchResults.map((user) => (
+            <div
+              key={user.id}
+              onClick={() => navigate(`/user/${user.id}`, { state: { user } })}
+            >
+              {user.firstName}
+            </div>
+          ))}
         </div>
+      </div>
     </div>
   );
 }
