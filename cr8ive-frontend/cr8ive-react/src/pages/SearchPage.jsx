@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
+import "../pages/SearchPage.css";
 
 function SearchPage() {
   const [searchUser, setSearchUser] = useState("");
@@ -23,16 +24,18 @@ function SearchPage() {
   return (
     <div>
       <h2>Discover</h2>
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchUser}
-          onChange={(e) => {
-            setSearchUser(e.target.value);
-            fetchUser();
-          }}
-        />
+      <div className="search-bar-container">
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchUser}
+            onChange={(e) => {
+              setSearchUser(e.target.value);
+              fetchUser();
+            }}
+          />
+        </div>
         <div className="search-results">
           {searchResults.map((user) => (
             <div
