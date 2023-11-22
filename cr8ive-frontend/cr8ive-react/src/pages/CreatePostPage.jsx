@@ -11,7 +11,7 @@ function CreatePostPage(){
         content: [],
         description: '',
         hashtagIds: [],
-        userId: 1,
+        userId: 3,
       });
 
 

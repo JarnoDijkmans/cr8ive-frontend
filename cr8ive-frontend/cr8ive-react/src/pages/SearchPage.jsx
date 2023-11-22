@@ -1,52 +1,50 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UserService from "../services/UserService";
-import "../pages/SearchPage.css";
-
+import './css/SearchPage.css'
 function SearchPage() {
-  const [searchUser, setSearchUser] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate();
 
-  const fetchUser = () => {
-    UserService.getUser(searchUser)
-      .then((response) => {
-        console.log('API Response:', response);
-        if (response && response.user) {
-          setSearchResults(response.user);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching user:', error);
-      });
-  };
+  const hobbies = [
+    {
+      name: 'Photography',
+      image: '../src/images/Photography.jpg', 
+    },
+    {
+      name: 'Painting',
+      image: '../src/images/painting.jpg', 
+    },
+    {
+      name: 'Writing',
+      image: '../src/images/writing.jpg'
+    },
+    {
+      name: 'Graphic Design/Illustration',  
+      image: '../src/images/graphic-designer.jpeg'
+    },
+    {
+      name: 'Graffiti',
+      image: '../src/images/graffiti.jpeg'
+    },
+    {
+      name: 'sculpting',
+      image: '../src/images/Sculpting.jpeg',
+    },
+    {
+      name: '3d modeling',
+      image: '../src/images/3D-Modeling.jpg'
+    }
+
+  ];
 
   return (
-    <div>
-      <h2>Discover</h2>
-      <div className="search-bar-container">
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchUser}
-            onChange={(e) => {
-              setSearchUser(e.target.value);
-              fetchUser();
-            }}
-          />
-        </div>
-        <div className="search-results">
-          {searchResults.map((user) => (
-            <div
-              key={user.id}
-              onClick={() => navigate(`/user/${user.id}`, { state: { user } })}
-            >
-              {user.firstName}
+    <div className="row">
+      {hobbies.map((hobby, index) => (
+        <div key={index} className="col-md-3 mb-4">
+          <div className="card">
+            <img src={hobby.image} className="card-img-top" alt={hobby.name} />
+            <div className="card-body">
+              <h5 className="card-title">#{hobby.name}</h5>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }

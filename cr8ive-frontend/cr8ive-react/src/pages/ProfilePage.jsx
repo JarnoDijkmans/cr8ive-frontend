@@ -1,31 +1,43 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import PostService from "../services/PostService";
-import '../pages/ProfilePage.css';
+import UserService from "../services/UserService";
+import './css/ProfilePage.css';
 
 function ProfilePage() {
   const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState(null);
   const location = useLocation();
   const { userId } = useParams();
 
   useEffect(() => {
-    PostService.getUserPosts(userId)
-      .then((response) => {
-        console.log('API Response:', response);
-        if (response) {
-          setPosts(response);
-        } else {
-          setPosts([]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching user posts:', error);
-      });
-  }, [userId]);
+    const fetchUserAndPosts = async () => {
+      let user;
+      if (location.state && location.state.user) {
+        user = location.state.user;
+      } else {
+        user = await UserService.getUserById(userId);
+      }
+      setUser(user);
+
+      const response = await PostService.getUserPosts(userId);
+      if (response) {
+        setPosts(response);
+      } else {
+        setPosts([]);
+      }
+    };
+
+    fetchUserAndPosts();
+  }, [userId, location.state]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-user">
-      <h2>{location.state.user.firstName}'s Posts</h2>
+      <h2>{user.firstName}</h2>
       {posts.map((post, index) => {
         const firstContent = post.content[0];
         const isImage = firstContent.type.startsWith("image/");
