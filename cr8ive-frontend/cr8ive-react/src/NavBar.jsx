@@ -2,6 +2,7 @@ import { useLocation, useNavigate  } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import SearchInput from "./components/SearchInput";
 import UserService from "./services/UserService";
+import LocalStorageService from "./services/LocalStorageService";
 
 
 function NavBar() {
@@ -14,7 +15,7 @@ function NavBar() {
   };
 
   useEffect(() => {
-    const jwt = localStorage.getItem('accessToken');
+    const jwt = LocalStorageService.get();
 
     if (jwt) {
       const tokenParts = jwt.split('.');

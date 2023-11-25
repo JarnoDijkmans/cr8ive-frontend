@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import LoginService from '../services/LoginService';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ({ isLoggedIn, setLoggedIn }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -19,31 +18,22 @@ const LoginPage = ({ isLoggedIn, setLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const accessToken = await LoginService.login(email, password);
-        if (accessToken) {
-            setLoggedIn(true);
-        } else {
-            setLoggedIn(true);
-        }
+       await LoginService.login(email, password); 
+       navigate('/search')
     } catch (error) {
         console.error(error);
     }
- };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/search');
-    }
-  }, [isLoggedIn, navigate]);
+  };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="form-signInForm">
       <form onSubmit={handleLogin}>
+        <h3>Login</h3>
         <div>
           <label>Email Address:</label>
           <input
             type="email"
+            placeholder='Email Address'
             value={email}
             onChange={handleEmailChange}
             required
@@ -53,16 +43,16 @@ const LoginPage = ({ isLoggedIn, setLoggedIn }) => {
           <label>Password:</label>
           <input
             type="password"
+            placeholder='Password'
             value={password}
             onChange={handlePasswordChange}
             required
           />
         </div>
         <button type="submit">Login</button>
-        {loginError && <p>Login failed. Please check your credentials.</p>}
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default LoginForm;

@@ -1,0 +1,197 @@
+.content-test {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: 0.5s;
+    border-radius: 30px;
+    background-color: #163238;
+}
+
+.container{
+    position: relative;
+    width: 800px ;
+    height: 700px;
+}
+
+.background{
+    position:absolute;
+    top: 40px;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 5px 45px rgba(0,0,0,0.15);
+}
+
+.box-signin, 
+.box-signup {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column ;
+}
+
+.box-signin h2,
+.box-signup h2
+{
+    color:#fff;
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.signUpBtn,
+.signInBtn
+{
+    cursor: pointer;
+    padding: 10px 20px;
+    background: #fff;
+    color: #333;
+    font-size: 16px ;
+    font-weight:500;
+    border: none;
+
+}
+
+.formBx {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: #1B1B21;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 45px rgba(0,0,0,0.25);
+    transition: 0.5s ease-in-out;
+    overflow: hidden;
+    border-radius: 40px;
+}
+  
+.formBx.active{
+    left: 50%;
+}
+  
+.content-test.customBackgroundColor {
+    background-color: #102C32; 
+  }
+
+.form-signInForm{
+    position: absolute;
+    width: 100%;
+    padding: 50px;
+    transition: 0.5s;
+    opacity: 1;
+}
+
+.formBx .form-signInForm
+.formBx .form-signUpForm{
+    transition-delay: 0.5s;
+}
+
+.formBx.active .form-signInForm{
+    left: -110%;
+    opacity: 0;
+    transition-delay: 0s;
+}
+
+.formBx .form-signUpForm{
+    position: relative;
+    left: 110%;
+    opacity: 0;
+}
+
+.formBx.active .form-signUpForm{
+    left: 0;
+    transition-delay: 0s;
+    opacity: 1;
+}
+  
+
+.form-signInForm form{
+   width: 100%;
+}
+
+.form-signInForm form h3,
+.form-signUpForm form h3{
+    font-size: 1.5em;
+    color:white;
+    margin-bottom: 20px;
+    font-weight: 500;
+ }
+
+ 
+
+ .formBx .form-signInForm form input,
+ .formBx .form-signUpForm form input{
+    width: calc(100% - 70px);
+    margin-bottom:  10px;
+    padding: 5px;
+    outline: none;
+    font-size: 16px;
+    border: 1px solid #333;
+    background-color: white;
+    color: black;
+ }
+
+ label{
+    color:white;
+ }
+
+button[type="submit"]{
+    background-color: white;
+    border: none;
+    color:black;
+    max-width: 100px;
+    cursor: pointer;
+    text-align: center;
+
+ }
+
+@media (max-width:991px){
+    .container {
+        max-width: 400px;
+        height: 650px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container .background {
+        top: 0;
+        height: 100%;
+    }
+
+    .formBx {
+        width: 100%;
+        height: 500px;
+        top: 0;
+        box-shadow: none;
+    }
+
+    .background .box-signin,
+    .background .box-signup {
+        position: absolute;
+        width: 100%;
+        height: 150px;
+        bottom: 0;
+    }
+
+    .box-signin{
+        top: 0;
+    }
+    
+    .formBx.active{
+        left:0;
+        top:150px;
+    }
+
+
+}

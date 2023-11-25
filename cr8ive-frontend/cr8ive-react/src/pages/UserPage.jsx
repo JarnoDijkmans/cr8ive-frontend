@@ -2,29 +2,29 @@ import React, { useEffect, useState } from 'react';
 import UserService from '../services/UserService';
 import './css/UserPage.css'
 
-function UserPage() {
- const [user, setUser] = useState(null);
+  function UserPage() {
+  const [user, setUser] = useState(null);
 
- useEffect(() => {
-    const jwt = localStorage.getItem('accessToken');
+  useEffect(() => {
+      const jwt = localStorage.getItem('accessToken');
 
-    if (jwt) {
-      const tokenParts = jwt.split('.');
-      
-      if (tokenParts.length === 3) {
-        const payload = JSON.parse(atob(tokenParts[1]));
-        const userId = payload.userId; 
+      if (jwt) {
+        const tokenParts = jwt.split('.');
         
-        UserService.getUserById(userId)
-        .then(response => {
-          setUser(response);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+        if (tokenParts.length === 3) {
+          const payload = JSON.parse(atob(tokenParts[1]));
+          const userId = payload.userId; 
+          
+          UserService.getUserById(userId)
+          .then(response => {
+            setUser(response);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        }
       }
-    }
-  }, []);
+    }, []);
 
 
  return (

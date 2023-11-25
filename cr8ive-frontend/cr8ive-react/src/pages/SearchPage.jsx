@@ -1,5 +1,7 @@
 import './css/SearchPage.css'
+import { useNavigate } from 'react-router-dom';
 function SearchPage() {
+  const navigate = useNavigate();
 
   const hobbies = [
     {
@@ -33,20 +35,35 @@ function SearchPage() {
 
   ];
 
-  return (
-    <div className="row">
-      {hobbies.map((hobby, index) => (
-        <div key={index} className="col-md-3 mb-4">
-          <div className="card">
-            <img src={hobby.image} className="card-img-top" alt={hobby.name} />
-            <div className="card-body">
-              <h5 className="card-title">#{hobby.name}</h5>
-            </div>
-          </div>
+
+  function handleLogoutClick(event) {
+        event.preventDefault();
+        localStorage.removeItem('accessToken');
+        navigate('/');
+    };
+
+
+    return (
+      <div>
+        <div>
+          <button className="logout-button" onClick={handleLogoutClick}>
+            Logout
+          </button>
         </div>
-      ))}
-    </div>
-  );
+        <div className="row">
+          {hobbies.map((hobby, index) => (
+            <div key={index} className="col-md-3 mb-4">
+              <div className="card">
+                <img src={hobby.image} className="card-img-top" alt={hobby.name} />
+                <div className="card-body">
+                  <h5 className="card-title">#{hobby.name}</h5>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
 }
 
 export default SearchPage;
