@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import PostService from "../services/PostService";
+import PostList from '../components/PostList';
 import UserService from "../services/UserService";
 import './css/ProfilePage.css';
 
@@ -38,29 +39,7 @@ function ProfilePage() {
   return (
     <div className="profile-user">
       <h2>{user.firstName}</h2>
-      {posts.map((post, index) => {
-        const firstContent = post.content[0];
-        const isImage = firstContent.type.startsWith("image/");
-        const isVideo = firstContent.type.startsWith("video/");
-
-        return (
-          <div key={index} className="post-content">
-            {isImage ? (
-              <img
-                src={firstContent.url}
-                alt={`Post Content ${index}`}
-                className="post-image"
-              />
-            ) : isVideo ? (
-              <video
-                src={firstContent.url}
-                controls
-                className="post-video"
-              />
-            ) : null}
-          </div>
-        );
-      })}
+      <PostList posts={posts} />
     </div>
   );
 }

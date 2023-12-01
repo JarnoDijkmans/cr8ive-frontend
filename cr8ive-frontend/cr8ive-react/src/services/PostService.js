@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosInstance from './AxiosInstance';
 
 const hostname = 'http://localhost:8080';
 
@@ -24,7 +25,7 @@ function savePost(newPost) {
   const formData = createPostFormData(newPost);
   console.log(formData);
 
-  return axios.post(`${hostname}/posts`, formData, {
+  return axiosInstance.post(`${hostname}/posts`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -37,15 +38,17 @@ function savePost(newPost) {
 }
 
 const getUserPosts = async (userId) => {
-  const response = await axios.get(`${hostname}/posts/${userId}`);
-  const posts = response.data;
+  const response = await axiosInstance.get(`${hostname}/posts/${userId}`);
+  const posts = response.data.post;
+
+  console.log(posts);
 
   for (let post of posts) {
     if (post.content && post.content.length > 0) {
       const updatedContent = [];
       for (let content of post.content) {
         try {
-          const fileResponse = await axios.get(`${hostname}/api/files/${post.id}/${content.url}`, { responseType: 'blob' });
+          const fileResponse = await axiosInstance.get(`${hostname}/api/files/${post.id}/${content.url}`, { responseType: 'blob' });
 
           const blob = new Blob([fileResponse.data], { type: content.type });
           const objectURL = URL.createObjectURL(blob);

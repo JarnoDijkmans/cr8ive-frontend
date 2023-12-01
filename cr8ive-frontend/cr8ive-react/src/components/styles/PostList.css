@@ -1,0 +1,38 @@
+.container-postlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+    width: 95%;
+    height: 600px;
+    background-color: cadetblue;
+    margin-top: 15px;
+    border-radius: 15px;
+    position: relative;
+    margin:auto;
+  }
+  
+  .gallery {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 15px;
+  }
+  
+  .content-image,
+  .content-video {
+    width: 100%; 
+    height: auto;
+    min-height: 200px;
+    max-width: 200px; 
+    object-fit: cover;
+    border: 3px solid rgb(66, 128, 131);
+    border-radius: 5px;
+    box-sizing: border-box; 
+    margin-top: 5px;
+  }
+
+  .content-image:hover, 
+  .content-video:hover {
+    box-shadow: 0 0 10px 3px #132F35; 
+  }

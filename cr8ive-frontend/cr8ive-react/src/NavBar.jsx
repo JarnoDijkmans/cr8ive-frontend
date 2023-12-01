@@ -1,39 +1,36 @@
 import { useLocation, useNavigate  } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import { useJwt } from 'react-jwt';
 import SearchInput from "./components/SearchInput";
 import UserService from "./services/UserService";
 import LocalStorageService from "./services/LocalStorageService";
+import Logout from "./components/Logout";
+
 
 
 function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const token = LocalStorageService.get();
+  const { decodedToken} = useJwt(token);
 
   const handleSearch = (searchResult) => {
     navigate(`/search?q=${searchResult}`); 
   };
 
   useEffect(() => {
-    const jwt = LocalStorageService.get();
-
-    if (jwt) {
-      const tokenParts = jwt.split('.');
-      
-      if (tokenParts.length === 3) {
-        const payload = JSON.parse(atob(tokenParts[1]));
-        const userId = payload.userId; 
-        
-        UserService.getUserById(userId)
-        .then(response => {
+    if (decodedToken) {
+      const userId = decodedToken.userId;
+      UserService.getUserById(userId)
+        .then((response) => {
           setUser(response);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
-      }
     }
-  }, []);
+  }, [decodedToken]);
 
   return (
     <div className="nav">
@@ -50,10 +47,14 @@ function NavBar() {
               <a href="/search">Search</a>
             </ul>
           )}
-           {user && (
-        <ul>
-          <a href="/YourPage">You <img src={user.profilePicture} className="profile-image" /></a>
-        </ul>
+          {user && (
+          <ul>
+            {location.pathname === "/YourPage" ? (
+              <Logout />
+            ) : (
+            <a href="/YourPage">You <img src={user.profilePicture} className="profile-image" /></a>
+            )}
+          </ul>
         )}
       </li>
     </div>

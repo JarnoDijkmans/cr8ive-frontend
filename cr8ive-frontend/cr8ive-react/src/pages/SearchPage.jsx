@@ -1,7 +1,5 @@
 import './css/SearchPage.css'
-import { useNavigate } from 'react-router-dom';
 function SearchPage() {
-  const navigate = useNavigate();
 
   const hobbies = [
     {
@@ -36,20 +34,10 @@ function SearchPage() {
   ];
 
 
-  function handleLogoutClick(event) {
-        event.preventDefault();
-        localStorage.removeItem('accessToken');
-        navigate('/');
-    };
 
 
     return (
       <div>
-        <div>
-          <button className="logout-button" onClick={handleLogoutClick}>
-            Logout
-          </button>
-        </div>
         <div className="row">
           {hobbies.map((hobby, index) => (
             <div key={index} className="col-md-3 mb-4">

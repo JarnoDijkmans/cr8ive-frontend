@@ -4,7 +4,7 @@ import axios from "axios";
 
 const hostname = 'http://localhost:8080';
 
-function login(email, password) {
+async function login(email, password) {
     
     return axios.post(`${hostname}/tokens`, {
         emailAddress: email,

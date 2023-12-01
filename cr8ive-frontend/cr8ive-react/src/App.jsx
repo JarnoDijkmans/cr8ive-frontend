@@ -18,6 +18,7 @@ function App() {
               <Route path="/search" element={<><NavBar></NavBar><SearchPage/> </>} />
               <Route path="/user/:userId" element={<><NavBar></NavBar><ProfilePage/> </>} />
               <Route path="/YourPage" element={<><NavBar></NavBar><UserPage/> </>} />
+              <Route path="/AddPost" element={<CreatePostPage/>} />
             </Routes>
         </div>
       </Router>

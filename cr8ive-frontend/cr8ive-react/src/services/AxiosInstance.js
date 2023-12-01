@@ -1,5 +1,7 @@
 import axios from 'axios';
 import LocalStorageService from './LocalStorageService';
+import { isExpired } from 'react-jwt';
+
 
 const baseURL = 'http://localhost:8080';
 
@@ -27,12 +29,12 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     //TODO
-    // if (error.response && error.response.status === 401) {
+    if (isExpired(LocalStorageService.get())) {
     LocalStorageService.remove();
     window.location.href = '/';
     return Promise.reject(error);
     }
-  //  }
+  }
 );
 
 export default axiosInstance;
