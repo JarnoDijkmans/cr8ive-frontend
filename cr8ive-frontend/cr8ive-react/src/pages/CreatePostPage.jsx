@@ -6,12 +6,11 @@ import ContentInput from '../components/ContentInput';
 import '../styles/CreatePostStyle.css';
 
 
-function CreatePostPage(){
+const CreatePostPage = ({ userId }) => {
     const [newPost, setNewPost] = useState({
         content: [],
         description: '',
         hashtagIds: [],
-        userId: 3,
       });
 
 
@@ -22,7 +21,7 @@ function CreatePostPage(){
             content: newPost.content,
             description: newPost.description,
             hashtagIds: newPost.hashtagIds,
-            userId: newPost.userId,
+            userId: userId,
           };
       
         postService

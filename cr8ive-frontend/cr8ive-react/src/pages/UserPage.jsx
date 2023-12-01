@@ -8,7 +8,6 @@ import './css/UserPage.css'
 
   function UserPage() {
   const [user, setUser] = useState(null);
-  const [posts, setPosts] = useState([]);
   const token = LocalStorageService.get();
   const { decodedToken} = useJwt(token);
 
@@ -19,18 +18,9 @@ import './css/UserPage.css'
       UserService.getUserById(userId)
         .then((userResponse) => {
           setUser(userResponse);
-          return Promise.all([PostService.getUserPosts(userId)]);
         })
-        .then(([postsResponse]) => {
-          console.log(postsResponse);
-          setPosts(postsResponse);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     }
   }, [decodedToken]);
-
 
   return (
     <div>
@@ -41,7 +31,7 @@ import './css/UserPage.css'
             <div className="eye"></div>
             <img src={user.profilePicture} className="profile-picture" alt={user.name} />
           </div>
-          <PostList posts={posts} />
+          <PostList userId={user.id} />
         </div>
       )}
     </div>

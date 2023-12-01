@@ -3,6 +3,12 @@
   padding: 20px;
 }
 
+.content-input-container button{
+  background-color: white;
+  color: black;
+  border: solid 1px cadetblue;
+}
+
 .current-file-container {
   text-align: center;
   min-width: 300px; 
