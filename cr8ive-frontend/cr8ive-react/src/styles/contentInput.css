@@ -1,6 +1,7 @@
 .content-input-container {
   text-align: center;
   padding: 20px;
+  position: relative;
 }
 
 .content-input-container button{
@@ -10,6 +11,7 @@
 }
 
 .current-file-container {
+  position: relative;
   text-align: center;
   min-width: 300px; 
   padding: 20px; 
@@ -33,3 +35,14 @@
 .Prev-Next-Button button {
   margin: 0 10px; 
 }
+
+.current-file-container .Remove-button{
+  background-color: #1B1B21;
+  color: red;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+}
+

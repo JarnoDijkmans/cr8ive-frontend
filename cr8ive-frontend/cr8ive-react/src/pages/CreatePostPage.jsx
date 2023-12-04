@@ -35,21 +35,29 @@ const CreatePostPage = ({ userId }) => {
       };
 
       const handleInputChange = (name, value) => {
+        if (name === 'content') {
+        setNewPost(() => ({
+          content: value 
+        }));
         
-        setNewPost((prevPost) => ({
-          ...prevPost,
-          [name]: value
-        }))
+       }else {
+          setNewPost((prevPost) => ({
+            ...prevPost,
+            [name]: value
+          }));
+        }
       };
+
+
 
     return (
         <div className="form">
           <h2>Create a New Post</h2>
           <form onSubmit={handleSubmit}>
-            <ContentInput 
-              addItem={handleInputChange}
+            <ContentInput
               name="content"
               value={newPost.content}
+              updateFiles={handleInputChange}
             />
             <DescriptionInput
               name="description"
