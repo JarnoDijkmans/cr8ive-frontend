@@ -1,5 +1,11 @@
+import { useEffect } from 'react';
 import './css/SearchPage.css'
+import LocalStorageService from '../services/LocalStorageService';
+
 function SearchPage() {
+  useEffect(() => {
+    LocalStorageService.AccessTokenisExpired()
+  });
 
   const hobbies = [
     {

@@ -28,7 +28,6 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    //TODO
     if (isExpired(LocalStorageService.get())) {
     LocalStorageService.remove();
     window.location.href = '/';

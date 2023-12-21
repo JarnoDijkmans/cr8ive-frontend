@@ -6,7 +6,12 @@ const hostname = 'http://localhost:8080';
 const getUserByName = async (name) => {
   try {
     const response = await axiosInstance.get(`${hostname}/users/${name}`);
-    const users = response.data;
+    const users = response.data.users;
+    for (let user of users){
+      if (user.profilePicture != null) {
+        user.profilePicture = await fetchAndUpdateFiles(user.id, user.profilePicture)
+        }
+    }
     return users;
   } catch (error) {
       console.error(error);
@@ -18,19 +23,24 @@ const getUserById = async (id) => {
   const response= await axiosInstance.get(`${hostname}/users/byId/${id}`)
   const { user } = response.data;
   if (user.profilePicture != null) {
-    try {
-      const fileResponse = await axiosInstance.get(`${hostname}/api/files/user/${user.id}/${user.profilePicture}`, { responseType: 'blob' });
-
-      const blob = new Blob([fileResponse.data]);
-      const objectURL = URL.createObjectURL(blob);
-      user.profilePicture = objectURL;
-    
-    } catch (error) {
-      console.error(`Failed to retrieve file: ${user.profilePicture}`);
-    }
+    user.profilePicture = await fetchAndUpdateFiles(user.id, user.profilePicture)
   }
   return user;
 };
+
+const fetchAndUpdateFiles = async (userId, profilePicture) => {
+  try {
+    const fileResponse = await axiosInstance.get(`${hostname}/api/files/user/${userId}/${profilePicture}`, { responseType: 'blob' });
+
+    const blob = new Blob([fileResponse.data]);
+    const objectURL = URL.createObjectURL(blob);
+    profilePicture = objectURL;
+  
+  } catch (error) {
+    console.error(`Failed to retrieve file: ${profilePicture}`);
+  }
+  return profilePicture;
+}
 
 async function saveUser(newUser) {
   const formData = createUserFormData(newUser);

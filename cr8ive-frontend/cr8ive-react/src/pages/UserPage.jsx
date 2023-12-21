@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import UserService from '../services/UserService';
-import PostService from '../services/PostService';
 import PostList from '../components/PostList';
 import LocalStorageService from "../services/LocalStorageService";
 import { useJwt } from 'react-jwt';
@@ -9,7 +8,7 @@ import './css/UserPage.css'
   function UserPage() {
   const [user, setUser] = useState(null);
   const token = LocalStorageService.get();
-  const { decodedToken} = useJwt(token);
+  const { decodedToken} = useJwt(token || null);
 
   useEffect(() => {
     if (decodedToken) {
@@ -29,8 +28,9 @@ import './css/UserPage.css'
           <div className="image-container">
             <img src="../src/images/background-profile.png" className="background-picture" alt="Background image" />
             <div className="eye"></div>
-            <img src={user.profilePicture} className="profile-picture" alt={user.name} />
+            <img src={user.profilePicture} className="profile-picture" alt={user.firstName} />
           </div>
+          <h2>{user.firstName}{user.lastName}</h2>
           <PostList userId={user.id} />
         </div>
       )}

@@ -4,6 +4,7 @@ import DescriptionInput from '../components/DescriptionInput';
 import HashtagsInput from '../components/HashtagInput';
 import ContentInput from '../components/ContentInput';
 import '../styles/CreatePostStyle.css';
+import Message from '../components/Message';
 
 
 const CreatePostPage = ({ userId }) => {
@@ -12,6 +13,7 @@ const CreatePostPage = ({ userId }) => {
         description: '',
         hashtagIds: [],
       });
+      const [message, setMessage] = useState(null);
 
 
     const handleSubmit = (e) => {
@@ -26,11 +28,13 @@ const CreatePostPage = ({ userId }) => {
       
         postService
           .savePost(newPostData)
-          .then((response) => {
-            console.log('Post created successfully:', response);
+          .then(() => {
+            setMessage({ isSuccess: true, text: "Created post successfully!" });
+            window.location.href = '/YourPage';
           })
           .catch((error) => {
             console.error('Error creating post:', error);
+            setMessage({ isSuccess: false, text: "Something went wrong!" });
           });
       };
 
@@ -47,8 +51,6 @@ const CreatePostPage = ({ userId }) => {
           }));
         }
       };
-
-
 
     return (
         <div className="form">
@@ -72,6 +74,11 @@ const CreatePostPage = ({ userId }) => {
             />
             <div>
               <button type="submit">Create Post</button>
+              <div>
+                    {message && (
+                        <Message isSuccess={message.isSuccess} message={message.text} />
+                    )}
+              </div>
             </div>
           </form>
         </div>

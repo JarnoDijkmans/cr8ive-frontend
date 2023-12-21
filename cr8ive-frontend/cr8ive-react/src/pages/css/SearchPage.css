@@ -7,7 +7,7 @@
   height: 200px;
   margin-bottom: 20px;
   flex: 0 1 calc(30% - 20px); 
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
 .card img {
@@ -29,6 +29,6 @@
 .row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: normal;
   padding-top: 20px;
 }

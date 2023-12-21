@@ -13,8 +13,8 @@ function SearchInput() {
       UserService.getUserByName(inputValue)
         .then((response) => {
           console.log('API Response:', response);
-          if (response && response.users) {
-            setSearchResults(response.users); 
+          if (response) {
+            setSearchResults(response); 
           }
         })
         .catch((error) => {

@@ -11,10 +11,10 @@ function ContentInput ({name, value, updateFiles }) {
       };
 
       const handleFileChanged = (e) => {
+        e.preventDefault();
         const newFiles = [...files, ...e.target.files];
         setFiles(newFiles);
         setCurrentIndex(newFiles.length - 1);
-        console.log( "new files: ",newFiles);
         updateFiles('content', newFiles);
     };
 
@@ -62,7 +62,7 @@ function ContentInput ({name, value, updateFiles }) {
                   {files[currentIndex].type.startsWith('image/') ? (
                       <img src={URL.createObjectURL(files[currentIndex])} alt="Selected File" className="image" /> 
                   ) : (
-                      <video controls src={URL.createObjectURL(files[currentIndex])} />
+                      <video controls src={URL.createObjectURL(files[currentIndex])} className="video" />
                   )}
                   <button className="Remove-button" onClick={() => removeFile(currentIndex)}>X</button>
               </div>

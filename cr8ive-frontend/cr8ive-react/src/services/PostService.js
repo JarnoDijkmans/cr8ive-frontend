@@ -1,11 +1,10 @@
-import axios from "axios";
 import axiosInstance from './AxiosInstance';
 
 const hostname = 'http://localhost:8080';
 
 function createPostFormData(newPost) {
     const formData = new FormData();
-  
+    
     newPost.content.forEach((file) => {
       formData.append('content', file);
     });
@@ -41,38 +40,55 @@ const getUserPosts = async (userId) => {
   const response = await axiosInstance.get(`${hostname}/posts/${userId}`);
   const posts = response.data.post;
 
-  console.log(posts);
-
   for (let post of posts) {
     if (post.content && post.content.length > 0) {
-      const updatedContent = [];
-      for (let content of post.content) {
-        try {
-          const fileResponse = await axiosInstance.get(`${hostname}/api/files/${post.id}/${content.url}`, { responseType: 'blob' });
-
-          const blob = new Blob([fileResponse.data], { type: content.type });
-          const objectURL = URL.createObjectURL(blob);
-
-          const updatedContentItem = {
-            url: objectURL,
-            type: content.type,
-          };
-
-          updatedContent.push(updatedContentItem);
-        } catch (error) {
-          console.error(`Failed to retrieve file: ${content.url}`);
-        }
-      }
-
-      post.content = updatedContent;
+      post.content = await fetchAndUpdateFiles(post.id, post.content)
     }
   }
-
   return posts;
 };
+
+const getPost = async (postId) => {
+  const response = await axiosInstance.get(`${hostname}/posts/postId/${postId}`);
+  const post = response.data.post;
+    if (post.content && post.content.length > 0) {
+      post.content = await fetchAndUpdateFiles(post.id, post.content)
+    }
+  return post;
+};
+
+
+
+const fetchAndUpdateFiles = async (postId, files) => {
+  const updatedFiles = [];
+  for (let file of files) {
+    try {
+      const fileResponse = await axiosInstance.get(`${hostname}/api/files/${postId}/${file.url}`, { responseType: 'blob' });
+      const blob = new Blob([fileResponse.data], { type: file.type });
+      const objectURL = URL.createObjectURL(blob);
+
+      const updatedContentItem = {
+        url: objectURL,
+        type: file.type,
+      };
+      updatedFiles.push(updatedContentItem);
+    } catch (error) {
+      console.error(`Failed to retrieve file: ${file.fileUrl}`);
+    }
+  }
+  return updatedFiles;
+};
+
+function deletePost(postId){
+  return axiosInstance.delete(`${hostname}/posts/${postId}`)
+}
+
 
 export default {
   createPostFormData,
   savePost,
-  getUserPosts
+  getUserPosts,
+  getPost,
+  deletePost,
+  fetchAndUpdateFiles
 };

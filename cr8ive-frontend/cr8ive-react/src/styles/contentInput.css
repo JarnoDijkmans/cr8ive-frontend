@@ -19,12 +19,14 @@
   border-radius: 20px;
 }
 
-.image {
+.current-file-container .image,
+.current-file-container .video {
   max-width: 100%;
-  max-height: 200px; 
+  max-height: 200px;
   width: auto;
   height: auto;
 }
+
 
 .Prev-Next-Button {
   display: flex; 
