@@ -5,6 +5,7 @@ import LoginPage from "./pages/IndexPage";
 import SearchPage from "../src/pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
 import UserPage from "./pages/UserPage";
+import HomePage from "./pages/HomePage"
 import NavBar from "./NavBar";
 import React from "react";
 
@@ -15,6 +16,7 @@ function App() {
         <div className='content'>
           <Routes>
               <Route path="/" element={<LoginPage/>} />
+              <Route path="/home" element={<><NavBar></NavBar><HomePage/> </>} />
               <Route path="/search" element={<><NavBar></NavBar><SearchPage/> </>} />
               <Route path="/user/:userId" element={<><NavBar></NavBar><ProfilePage/> </>} />
               <Route path="/YourPage" element={<><NavBar></NavBar><UserPage/> </>} />

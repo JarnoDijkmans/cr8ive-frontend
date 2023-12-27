@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import ChatComponent from '../components/ChatComponent';
+import ProfilePictureChat from '../components/ProfilePictureChat';
 import ChatInput from '../components/ChatInput';
 import ChatService from '../services/ChatService';
+import './css/ChatPage.css'
 import LocalStorageService from '../services/LocalStorageService';
 
 const ChatPage = ({receiverId, onClose }) => {
   const [messagesReceived, setMessagesReceived] = useState([]);
+  const [isOpen, setIsOpen] = useState(null);
   const [stompClient, setStompClient] = useState(null);
-  const senderId = LocalStorageService.DecodeAccessTokenReturnUserId();
+  const localUserId = LocalStorageService.DecodeAccessTokenReturnUserId();
+
+  useEffect(() => {
+    ChatService.fetchMessages(receiverId)
+      .then(data => {
+        setMessagesReceived(data.messages || []);
+      })
+      .catch(error => {
+        console.error('Error fetching messages:', error);
+      });
+  }, [receiverId, isOpen]);
+
 
   useEffect(() => {
     const stompClient = new Client({
@@ -20,7 +34,7 @@ const ChatPage = ({receiverId, onClose }) => {
 
     stompClient.onConnect = () => {
       console.log('Connected!');
-      stompClient.subscribe(`/user/${senderId}/queue/chat`, (data) => {
+      stompClient.subscribe(`/user/${localUserId}/queue/chat`, (data) => {
         onMessageReceived(data);
       });
     };
@@ -40,19 +54,9 @@ const ChatPage = ({receiverId, onClose }) => {
     };
   }, [receiverId]);
 
-  useEffect(() => {
-    ChatService.fetchMessages(receiverId)
-      .then(data => {
-        setMessagesReceived(data.messages || []);
-      })
-      .catch(error => {
-        console.error('Error fetching messages:', error);
-      });
-  }, [receiverId]);
-
   const onSendMessage = (newMessage) => {
     const payload = {
-      senderId: senderId,
+      senderId: localUserId,
       receiverId: receiverId,
       text: newMessage
      };
@@ -63,7 +67,7 @@ const ChatPage = ({receiverId, onClose }) => {
      });
 
      stompClient.publish({
-      destination: `/user/${senderId}/queue/chat`,
+      destination: `/user/${localUserId}/queue/chat`,
       body: JSON.stringify(payload),
     });
 
@@ -89,10 +93,13 @@ const ChatPage = ({receiverId, onClose }) => {
   };
 
   return (
-    <div className="App">
-      <ChatComponent messages={messagesReceived} />
-      <ChatInput onSendMessage={onSendMessage} />
-      <button onClick={handleDisconnect}>Close</button>
+    <div className="chat-overlay">
+      <ProfilePictureChat localUserId={localUserId} receiverUserId={receiverId}/>
+        <div className='chat-content'>
+          <ChatComponent messages={messagesReceived} receiverId={receiverId} localUserId={localUserId} />
+        </div>
+        <ChatInput onSendMessage={onSendMessage} />
+        <button onClick={handleDisconnect} className='close-chat-button'>X</button>
     </div>
   );
 };

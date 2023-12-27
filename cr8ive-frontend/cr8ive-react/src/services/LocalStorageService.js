@@ -16,7 +16,7 @@ function DecodeAccessTokenReturnUserId() {
   return userId;
 }
 
-function DecodeAccessTokenReturnFistName() {
+function DecodeAccessTokenReturnUsername() {
   const token = get();
   const decodedToken = decodeToken(token);
   const firstName = decodedToken.sub;
@@ -31,4 +31,4 @@ function remove() {
   localStorage.removeItem('accessToken');
 }
 
-export default { get, remove, AccessTokenisExpired, DecodeAccessTokenReturnUserId, DecodeAccessTokenReturnFistName };
+export default { get, remove, AccessTokenisExpired, DecodeAccessTokenReturnUserId, DecodeAccessTokenReturnUsername };

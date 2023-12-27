@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import PostService from "../services/PostService";
 import PostList from '../components/PostList';
 import UserService from "../services/UserService";
-import './css/ProfilePage.css';
 import ChatPage from "./ChatPage";
 
 function ProfilePage() {
@@ -22,6 +20,14 @@ function ProfilePage() {
       setUser(user);
   }, [userId, location.state]);
 
+  useEffect(() => {
+    if (IsChatOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [IsChatOpen]);
+ 
   if (!user) {
     return <div>Loading...</div>;
   }

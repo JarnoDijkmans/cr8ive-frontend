@@ -1,0 +1,29 @@
+.trending-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .trending-section h2 {
+    margin-right: 10px; 
+    text-decoration: underline;
+  }
+
+  .preferences-section h2 {
+    text-decoration: underline;
+  }
+  
+  .container-sections {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    transition: all 0.5s ease; 
+    opacity: 1;
+    padding-top: 10px;
+  }
+
+  .container-homepage {
+    width: 100%;
+    left:0;
+    top: 50px;
+    position: absolute;
+  }

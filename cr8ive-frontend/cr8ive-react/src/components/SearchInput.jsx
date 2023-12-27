@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
 import "./SearchInput.css";
+import LocalStorageService from '../services/LocalStorageService';
 
 function SearchInput() {
   const [searchResults, setSearchResults] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
+  const localUserId = LocalStorageService.DecodeAccessTokenReturnUserId();
 
   const fetchUserByName = (inputValue) => {
     if (inputValue.length >= 1) {
@@ -14,7 +16,8 @@ function SearchInput() {
         .then((response) => {
           console.log('API Response:', response);
           if (response) {
-            setSearchResults(response); 
+            const filteredResults = response.filter(user => user.id !== localUserId);
+            setSearchResults(filteredResults); 
           }
         })
         .catch((error) => {

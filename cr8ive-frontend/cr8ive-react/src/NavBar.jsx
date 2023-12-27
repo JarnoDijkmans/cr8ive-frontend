@@ -36,7 +36,7 @@ function NavBar() {
     <div className="nav">
       <li>
         <ul>
-          <a href="/search">Cr8ive</a>
+          <a href="/home">Cr8ive</a>
         </ul>
         {location.pathname === "/search" ? (
         <ul>

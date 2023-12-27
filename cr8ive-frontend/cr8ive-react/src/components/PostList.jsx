@@ -32,6 +32,14 @@ const PostList = ({ userId }) => {
     }
   }, [selectedNavItem, userId]);
 
+  useEffect(() => {
+    if (isDetailOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isDetailOpen]);
+
   const handleNavItemClick = (itemId) => {
     setSelectedNavItem(itemId);
   };

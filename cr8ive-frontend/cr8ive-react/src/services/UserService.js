@@ -21,7 +21,7 @@ const getUserByName = async (name) => {
 
 const getUserById = async (id) => {
   const response= await axiosInstance.get(`${hostname}/users/byId/${id}`)
-  const { user } = response.data;
+  const user  = response.data;
   if (user.profilePicture != null) {
     user.profilePicture = await fetchAndUpdateFiles(user.id, user.profilePicture)
   }
@@ -73,8 +73,14 @@ function createUserFormData(newUser) {
   return formData;
 }
 
+
+async function getProfilePictureById(senderId) {
+
+}
+
 export default {
   getUserByName,
   getUserById,
-  saveUser
+  saveUser,
+  getProfilePictureById,
 };
