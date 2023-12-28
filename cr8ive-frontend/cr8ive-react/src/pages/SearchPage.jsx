@@ -1,38 +1,47 @@
 import { useEffect } from 'react';
-import './css/SearchPage.css'
+import { Link } from 'react-router-dom';
+import './css/SearchPage.css';
 import LocalStorageService from '../services/LocalStorageService';
 
 function SearchPage() {
+
   useEffect(() => {
     LocalStorageService.AccessTokenisExpired()
   });
 
-  const hobbies = [
+  const tags = [
     {
+      id: 1,
       name: 'Photography',
       image: '../src/images/Photography.jpg', 
     },
     {
+      id: 2,
       name: 'Painting',
       image: '../src/images/painting.jpg', 
     },
     {
+      id: 3,
       name: 'Writing',
       image: '../src/images/writing.jpg'
     },
     {
+      id: 4,
       name: 'Graphic Design/Illustration',  
       image: '../src/images/graphic-designer.jpeg'
     },
     {
+      id: 5,
       name: 'Graffiti',
       image: '../src/images/graffiti.jpeg'
     },
     {
+      id: 6,
       name: 'sculpting',
       image: '../src/images/Sculpting.jpeg',
     },
     {
+      id: 7,
       name: '3d modeling',
       image: '../src/images/3D-Modeling.jpg'
     }
@@ -40,24 +49,23 @@ function SearchPage() {
   ];
 
 
-
-
     return (
       <div>
         <div className="row">
-          {hobbies.map((hobby, index) => (
+          {tags.map((tag, index) => (
             <div key={index} className="col-md-3 mb-4">
-              <div className="card">
-                <img src={hobby.image} className="card-img-top" alt={hobby.name} />
+              <Link 
+                to={`/home?tag=${tag.id}`} className="card">
+                <img src={tag.image} className="card-img-top" alt={tag.name} />
                 <div className="card-body">
-                  <h5 className="card-title">#{hobby.name}</h5>
+                  <h3 className="card-title">#{tag.name}</h3>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
       </div>
     );
-}
-
-export default SearchPage;
+  }
+  
+  export default SearchPage;

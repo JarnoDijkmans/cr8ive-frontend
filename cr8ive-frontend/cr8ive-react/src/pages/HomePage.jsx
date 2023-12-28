@@ -1,24 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import TrendingIcon from '../components/TrendingIcon'
+import PostService from '../services/PostService';
+import LocalStorageService from '../services/LocalStorageService';
 import "./css/HomePage.css"
 import Headroom from 'react-headroom';
+import { useJwt } from 'react-jwt'; 
+import Post from '../components/Post'
 
 const HomePage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const tag = queryParams.get('tag');
+    const hashTagId = queryParams.get('tag');
     const [headroomMargin, setHeadroomMargin] = useState('0px');
+    const [fetchedPosts, setFetchedPosts] = useState([]);
+    const token = LocalStorageService.get();
+    const { decodedToken} = useJwt(token || null);
+    const [currentSection, setCurrentSection] = useState('preferences');
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
         setHeadroomMargin('0px');
       } else {
-        setHeadroomMargin('50px'); // Adjust this value as necessary
+        setHeadroomMargin('50px'); 
       }
     };
-
     window.addEventListener('scroll', handleScroll);
 
     return () => {
@@ -26,48 +33,63 @@ const HomePage = () => {
     };
     }, []);
 
-      const hobbies = [
-        {
-          name: 'Photography',
-          image: '../src/images/Photography.jpg', 
-        },
-        {
-          name: 'Painting',
-          image: '../src/images/painting.jpg', 
-        },
-        {
-          name: 'Writing',
-          image: '../src/images/writing.jpg'
-        },
-        {
-          name: 'Graphic Design/Illustration',  
-          image: '../src/images/graphic-designer.jpeg'
-        },
-        {
-          name: 'Graffiti',
-          image: '../src/images/graffiti.jpeg'
-        },
-        {
-          name: 'sculpting',
-          image: '../src/images/Sculpting.jpeg',
-        },
-        {
-          name: '3d modeling',
-          image: '../src/images/3D-Modeling.jpg'
-        }
-    
-      ];
-    
-
     useEffect(() => {
-        if (tag) {
-          // Fetch posts related to the tag
-          // Example: fetchPostsByTag(tag);
-        } else {
-          // Fetch default posts for the homepage
-          // Example: fetchDefaultPosts();
+      if (decodedToken) {
+        const userId = decodedToken.userId;
+        if (currentSection == 'preferences'){
+          if (hashTagId) {
+            // Fetch posts related to the tag
+            // Example: fetchPostsByTag(tag);
+          } else {
+            PostService.getLatestPostsforUser(userId) 
+              .then((response) => {
+              console.log("response: ", response)
+              setFetchedPosts(response);
+            })
+          }
         }
-      }, [tag]);
+        else {
+          setFetchedPosts([]);
+        }
+      }}, [hashTagId, decodedToken, currentSection]);
+
+      const handleTrendingClick = () => {
+        setCurrentSection('trending');
+      };
+
+      const handlePreferencesClick = () => {
+        setCurrentSection('preferences');
+      };
+
+      const markPostAsSeen = async (postId) => {
+        try {
+          await PostService.markPostAsSeenByUser(postId, decodedToken.userId);
+        } catch (error) {
+          console.error('Error marking post as seen:', error);
+        }
+      };
+
+      const handlePostView = async(postId) => {
+        const postKey = postId;
+        const postInView = localStorage.getItem(postKey);
+    
+        if (!postInView) {
+          const postElement = document.getElementById(`post-${postId}`);
+          if (postElement) {
+            const rect = postElement.getBoundingClientRect();
+            const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+            if (isVisible) {
+              try {
+                await markPostAsSeen(postId);
+                localStorage.setItem(postKey, 'true');
+              } catch (error) {
+                // Error occurred in marking the post as seen
+                // You can handle this case accordingly
+              }
+            }
+          }
+        }
+      };
 
       
      
@@ -75,31 +97,20 @@ const HomePage = () => {
         <div className='container-homepage'>
           <Headroom style={{ marginTop: headroomMargin }}>
           <div className="container-sections">
-          <div className="trending-section">
-            <h2>Trending</h2>
-            <TrendingIcon />
-          </div>
-          <div className="user-preferences-section">
-            <div className="preferences-section">
-            <h2>For You</h2>
-            {/* Display posts based on user preferences */}
-            {/* Handle post interactions */}
+            <div className="trending-section" onClick={handleTrendingClick}>
+              <h2>Trending</h2>
+              <TrendingIcon />
+            </div>
+            <div className="preferences-section" onClick={handlePreferencesClick}>
+              <h2>For You</h2>
             </div>
           </div>
-        </div>
         </Headroom>
-        <div className="test">
-          {hobbies.map((hobby, index) => (
-            <div key={index} className="col-md-3 mb-4">
-              <div className="card">
-                <img src={hobby.image} className="card-img-top" alt={hobby.name} />
-                <div className="card-body">
-                  <h5 className="card-title">#{hobby.name}</h5>
-                </div>
-              </div>
+        <div className='posts-section'>
+          {fetchedPosts.map((post) => (
+                <Post key={post.id} post={post} handlePostView={handlePostView} />
+              ))}
             </div>
-          ))}
-        </div>
         </div>
       );
     };

@@ -74,13 +74,8 @@ function createUserFormData(newUser) {
 }
 
 
-async function getProfilePictureById(senderId) {
-
-}
-
 export default {
   getUserByName,
   getUserById,
   saveUser,
-  getProfilePictureById,
 };

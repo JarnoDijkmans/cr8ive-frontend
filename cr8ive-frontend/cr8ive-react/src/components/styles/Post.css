@@ -1,0 +1,11 @@
+.carousel-container {
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .post-media-video {
+    max-width: 400px;
+    max-height: 400px;
+    width: 100%;
+    height: 100%;
+  }

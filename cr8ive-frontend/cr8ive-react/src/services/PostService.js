@@ -83,6 +83,21 @@ function deletePost(postId){
   return axiosInstance.delete(`${hostname}/posts/${postId}`)
 }
 
+const markPostAsSeenByUser = async(postId, userId) =>{
+   return axiosInstance.post(`${hostname}/posts/markAsSeen/${postId}/${userId}`)
+}
+
+const getLatestPostsforUser = async(userId) => {
+  const response = await axiosInstance.get(`${hostname}/posts/api/posts/forUser/${userId}`);
+  const posts = response.data.post;
+  for (let post of posts) {
+    if (post.content && post.content.length > 0) {
+      post.content = await fetchAndUpdateFiles(post.id, post.content)
+    }
+  }
+  return posts;
+}
+
 
 export default {
   createPostFormData,
@@ -90,5 +105,7 @@ export default {
   getUserPosts,
   getPost,
   deletePost,
-  fetchAndUpdateFiles
+  fetchAndUpdateFiles,
+  markPostAsSeenByUser,
+  getLatestPostsforUser
 };
