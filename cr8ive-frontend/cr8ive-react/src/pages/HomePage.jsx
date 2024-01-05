@@ -14,6 +14,7 @@ const HomePage = () => {
     const hashTagId = queryParams.get('tag');
     const [headroomMargin, setHeadroomMargin] = useState('0px');
     const [fetchedPosts, setFetchedPosts] = useState([]);
+    const [seenPosts, setSeenPosts] = useState([]);
     const token = LocalStorageService.get();
     const { decodedToken} = useJwt(token || null);
     const [currentSection, setCurrentSection] = useState('preferences');
@@ -21,9 +22,9 @@ const HomePage = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
-        setHeadroomMargin('0px');
+        setHeadroomMargin('-2px');
       } else {
-        setHeadroomMargin('50px'); 
+        setHeadroomMargin('40px'); 
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -48,10 +49,41 @@ const HomePage = () => {
             })
           }
         }
-        else {
-          setFetchedPosts([]);
+        else if(currentSection == 'trending') {
+          PostService.getTrendingPosts()
+          .then((response) => {
+            setFetchedPosts(response)
+          })
         }
+        else { setFetchedPosts([])}
       }}, [hashTagId, decodedToken, currentSection]);
+
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                markPostAsSeen(entry.target.id);
+                observer.unobserve(document.getElementById(entry.target.id));
+              }
+            });
+          },
+          { threshold: 1 } 
+        );
+
+        fetchedPosts.forEach((post) => {
+          observer.observe(document.getElementById(`post-${post.id}`));
+        });
+      
+        return () => {
+          fetchedPosts.forEach((post) => {
+            const element = document.getElementById(`post-${post.id}`);
+            if (element) {
+              observer.unobserve(element);
+            }
+          });
+        };
+      }, [fetchedPosts]);
 
       const handleTrendingClick = () => {
         setCurrentSection('trending');
@@ -62,32 +94,12 @@ const HomePage = () => {
       };
 
       const markPostAsSeen = async (postId) => {
+        setSeenPosts((prevSeenPosts) => [...prevSeenPosts, postId]);
+      
         try {
           await PostService.markPostAsSeenByUser(postId, decodedToken.userId);
         } catch (error) {
           console.error('Error marking post as seen:', error);
-        }
-      };
-
-      const handlePostView = async(postId) => {
-        const postKey = postId;
-        const postInView = localStorage.getItem(postKey);
-    
-        if (!postInView) {
-          const postElement = document.getElementById(`post-${postId}`);
-          if (postElement) {
-            const rect = postElement.getBoundingClientRect();
-            const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
-            if (isVisible) {
-              try {
-                await markPostAsSeen(postId);
-                localStorage.setItem(postKey, 'true');
-              } catch (error) {
-                // Error occurred in marking the post as seen
-                // You can handle this case accordingly
-              }
-            }
-          }
         }
       };
 
@@ -107,9 +119,9 @@ const HomePage = () => {
           </div>
         </Headroom>
         <div className='posts-section'>
-          {fetchedPosts.map((post) => (
-                <Post key={post.id} post={post} handlePostView={handlePostView} />
-              ))}
+        {fetchedPosts.map((post) => (
+              <Post key={post.id} post={post} seen={seenPosts.includes(post.id)} />
+            ))}
             </div>
         </div>
       );

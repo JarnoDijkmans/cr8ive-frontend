@@ -88,7 +88,18 @@ const markPostAsSeenByUser = async(postId, userId) =>{
 }
 
 const getLatestPostsforUser = async(userId) => {
-  const response = await axiosInstance.get(`${hostname}/posts/api/posts/forUser/${userId}`);
+  const response = await axiosInstance.get(`${hostname}/posts/api/forUser/${userId}`);
+  const posts = response.data.post;
+  for (let post of posts) {
+    if (post.content && post.content.length > 0) {
+      post.content = await fetchAndUpdateFiles(post.id, post.content)
+    }
+  }
+  return posts;
+}
+
+const getTrendingPosts = async() => {
+  const response = await axiosInstance.get(`${hostname}/posts/api/trending`);
   const posts = response.data.post;
   for (let post of posts) {
     if (post.content && post.content.length > 0) {
@@ -99,6 +110,7 @@ const getLatestPostsforUser = async(userId) => {
 }
 
 
+
 export default {
   createPostFormData,
   savePost,
@@ -107,5 +119,6 @@ export default {
   deletePost,
   fetchAndUpdateFiles,
   markPostAsSeenByUser,
-  getLatestPostsforUser
+  getLatestPostsforUser,
+  getTrendingPosts
 };

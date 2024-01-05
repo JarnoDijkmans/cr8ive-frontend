@@ -19,6 +19,7 @@
     transition: all 0.5s ease; 
     opacity: 1;
     padding-top: 10px;
+    background-color: rgb(63, 118, 120);
   }
 
   .container-homepage {
@@ -26,4 +27,5 @@
     left:0;
     top: 50px;
     position: absolute;
+    background-color: #163238;
   }
