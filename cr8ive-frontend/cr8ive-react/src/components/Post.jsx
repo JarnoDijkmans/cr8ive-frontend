@@ -5,6 +5,7 @@ import { Carousel } from 'react-responsive-carousel';
 import userService from '../services/UserService';
 import likeService from '../services/LikeService'
 import LikeButton from '../components/LikeButton';
+import Hashtag from './Hashtag';
 import './styles/Post.css'
 
 const Post = ({ post, handlePostView }) => {
@@ -13,6 +14,7 @@ const Post = ({ post, handlePostView }) => {
   const token = LocalStorageService.get();
   const { decodedToken} = useJwt(token || null);
   const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(false);
   
   useEffect(() => {
     userService.getUserById(post.userId).then((response) => { setUser(response);
@@ -31,20 +33,31 @@ const Post = ({ post, handlePostView }) => {
         });
     }
   }, [decodedToken]);
+
+  useEffect(() => {
+    setLikes(post.likes);
+  }, [post.likes]);
   
 
   const handleLike = () => {
     const newLiked = !liked;
     setLiked(newLiked);
-    if (newLiked) {
-      likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
-        post.likes = response.likeCount;
-      });
-    } else {
-      likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
-        post.likes = response.likeCount;
-      });
+    try {
+      if (newLiked === true) {
+        likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
+          setLikes(response.likeCount);
+        });
+      } else {
+        likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
+          setLikes(response.likeCount);
+        });
+      }
     }
+    catch {
+      console.error("Error updating likes: ", error);
+      setLiked(!newLiked);
+    }
+   
    };
   
   return (
@@ -80,12 +93,16 @@ const Post = ({ post, handlePostView }) => {
                 </>
             )}
         </div>
-        <div className='post-info'>
+        <div className='post-hashtag-info'>
+          <Hashtag hashtagIds={post.hashtagIds} />
+         
+        </div>
+        <div className='post-description-info'>
           <p>{post.description}</p>
         </div>
             <div className='interaction-section'>
+              <p>{likes}</p>
             <LikeButton onClick={handleLike} liked={liked} />
-            <p>{post.likes}</p>
             </div>
         </div>
       </div>

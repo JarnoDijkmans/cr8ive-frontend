@@ -43,6 +43,7 @@
 
 body{
   background-color: #132F35;
+  display: block !important;
 }
 
 .nav {

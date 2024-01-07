@@ -12,6 +12,7 @@
     opacity: 0;
     z-index: 20;
     cursor: pointer;
+    right: 2px;
   }
   
   .con-like .checkmark {
@@ -20,6 +21,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 10px;
   }
   
   .con-like .outline,
