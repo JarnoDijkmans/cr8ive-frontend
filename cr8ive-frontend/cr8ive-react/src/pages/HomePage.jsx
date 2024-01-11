@@ -22,7 +22,7 @@ const HomePage = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
-        setHeadroomMargin('-2px');
+        setHeadroomMargin('-5px');
       } else {
         setHeadroomMargin('40px'); 
       }

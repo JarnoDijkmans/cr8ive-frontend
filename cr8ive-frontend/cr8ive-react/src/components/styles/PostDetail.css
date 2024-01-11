@@ -66,3 +66,24 @@
     top: 125px;
     right:80px;
   }
+
+  .edit-description-box {
+    width: 100%; /* Set a fixed width for the input box */
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 8px;
+    word-wrap: break-word;
+    overflow: hidden; 
+  }
+  
+  .edit-description-box input {
+    width: 50%;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 8px;
+    margin-top: 5px;
+    word-wrap: break-word;
+    height: auto;
+    resize: vertical; 
+    background-color: cadetblue;
+  }

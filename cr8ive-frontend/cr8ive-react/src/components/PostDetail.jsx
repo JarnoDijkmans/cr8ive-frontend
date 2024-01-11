@@ -11,6 +11,8 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 const PostDetail = ({ postId, onClose }) => {
  const [post, setPost] = useState(null);
  const [isOpen, setIsOpen] = useState(false);
+ const [isEdit, setIsEdit] = useState(false); 
+ const [editedDescription, setEditedDescription] = useState('');
  const token = LocalStorageService.get();
  const { decodedToken} = useJwt(token || null);
 
@@ -24,6 +26,22 @@ const PostDetail = ({ postId, onClose }) => {
           });
     }
 
+    const editPost = () => {
+      setIsEdit(true);
+      setEditedDescription(post.description);
+    };
+
+    const saveEditedPost = () => {
+      PostService.updatePostDescription(postId, editedDescription)
+        .then((response) => {
+          setIsEdit(false);
+          post.description = response;
+        })
+        .catch((error) => {
+          console.error('Error updating post description:', error);
+        });
+    };
+
  useEffect(() => {
     PostService.getPost(postId)
       .then((response) => {
@@ -36,13 +54,26 @@ const PostDetail = ({ postId, onClose }) => {
       if (decodedToken) {
         console.log("roles:", decodedToken.roles)
       }
-   }, [postId, decodedToken]);
+   }, [postId, decodedToken, post]);
   
    return post ? (
     <div className="post-detail-overlay">
       <div className="post-detail-content">
-        <h3>{post.creationDate}</h3>
-        <p>{post.description}</p>
+          <div className="edit-description-box">
+          {isEdit ? (
+            <input
+              type="text"
+              value={editedDescription}
+              onChange={(e) => setEditedDescription(e.target.value)}
+              placeholder="Edit description..."
+            />
+          ) : (
+            <div>
+              <h3>{post.creationDate}</h3>
+              <p>{post.description}</p>
+            </div>
+          )}
+        </div>
         <Carousel>
           {post.content.map((content, index) => {
             const isImage = content.type.startsWith('image/');
@@ -66,15 +97,24 @@ const PostDetail = ({ postId, onClose }) => {
         </button>
         {isOpen && decodedToken && (
           <div className="additional-actions">
-             {(post.userId === decodedToken.userId || decodedToken.roles === 'MAINTAINER') && (
-            <button onClick={deletePost}>Delete Post</button>
+            {(post.userId === decodedToken.userId || decodedToken.roles.includes('MODERATOR')) && (
+              <button onClick={deletePost}>Delete Post</button>
+            )}
+            {(post.userId === decodedToken.userId) && (
+              <div>
+                {isEdit ? (
+                  <button onClick={saveEditedPost}>Save</button>
+                ) : (
+                  <button onClick={editPost}>Edit Post</button>
+                )}
+              </div>
             )}
           </div>
         )}
         <button onClick={onClose}>Close</button>
       </div>
     </div>
-   ) : null;
-  };
-  
-  export default PostDetail;
+  ) : null;
+};
+
+export default PostDetail;

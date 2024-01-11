@@ -109,6 +109,19 @@ const getTrendingPosts = async() => {
   return posts;
 }
 
+const updatePostDescription = async(postId, description) => {
+    const requestBody = {
+      postId: postId,
+      description: description
+  };
+    try {
+      const response = await axiosInstance.post(`${hostname}/posts/update/description`, requestBody);
+      return response.data;
+    }catch (error) {
+      throw error;
+  } 
+}
+
 
 
 export default {
@@ -120,5 +133,6 @@ export default {
   fetchAndUpdateFiles,
   markPostAsSeenByUser,
   getLatestPostsforUser,
-  getTrendingPosts
+  getTrendingPosts, 
+  updatePostDescription
 };

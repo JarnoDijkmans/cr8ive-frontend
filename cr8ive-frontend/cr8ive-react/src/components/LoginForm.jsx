@@ -21,7 +21,7 @@ const LoginForm = () => {
     e.preventDefault();
     try {
        await LoginService.login(email, password); 
-       navigate('/search')
+       navigate('/home')
     } catch (error) {
         setMessage({ isSuccess: false, text: "Something went wrong, Try again!" });
         console.error(error);

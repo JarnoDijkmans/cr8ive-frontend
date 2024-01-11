@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import LoginService from '../services/LoginService';
 import LocalStorageService from '../services/LocalStorageService';
 import { useNavigate } from 'react-router-dom';
 import "./css/LoginPage.css"

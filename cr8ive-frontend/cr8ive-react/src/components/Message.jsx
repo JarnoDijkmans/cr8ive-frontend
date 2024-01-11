@@ -5,16 +5,16 @@ const Message = ({ isSuccess, message }) => {
     let style = {
       padding: '10px',
       borderRadius: '5px',
-      marginBottom: '10px',
       color: 'white',
       fontWeight: 'bold',
-      width: 'fit-content',
+      marginRight: 'auto',
+      marginLeft: 'auto'
     };
 
     if (isSuccess) {
-      style.backgroundColor = 'green';
+      style.color = 'green';
     } else {
-      style.backgroundColor = 'red';
+      style.color = 'red';
     }
 
     return style;
