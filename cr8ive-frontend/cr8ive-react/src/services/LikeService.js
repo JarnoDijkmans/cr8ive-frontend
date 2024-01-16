@@ -2,11 +2,10 @@ import axiosInstance from './AxiosInstance';
 
 const hostname = 'http://localhost:8080';
 
-async function updateLikes(postId, userId, liked){
+async function updateLikes(postId, liked){
     try{
         const response = await axiosInstance.post (`${hostname}/api/likes` ,{
             postId: postId,
-            userId: userId,
             liked: liked
         });
         return response.data

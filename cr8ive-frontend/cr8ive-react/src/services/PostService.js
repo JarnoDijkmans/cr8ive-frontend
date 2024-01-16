@@ -88,8 +88,8 @@ const markPostAsSeenByUser = async(postId, userId) =>{
    return axiosInstance.post(`${hostname}/posts/markAsSeen/${postId}/${userId}`)
 }
 
-const getLatestPostsforUser = async(userId) => {
-  const response = await axiosInstance.get(`${hostname}/posts/api/forUser/${userId}`);
+const getLatestPostsforUser = async(currentPage) => {
+  const response = await axiosInstance.get(`${hostname}/posts/api/latestPost/${currentPage}`);
   const posts = response.data.post;
   for (let post of posts) {
     if (post.content && post.content.length > 0) {
@@ -99,8 +99,8 @@ const getLatestPostsforUser = async(userId) => {
   return posts;
 }
 
-const getTrendingPosts = async() => {
-  const response = await axiosInstance.get(`${hostname}/posts/api/trending`);
+const getTrendingPosts = async(currentPage) => {
+  const response = await axiosInstance.get(`${hostname}/posts/api/trending/${currentPage}`);
   const posts = response.data.post;
   for (let post of posts) {
     if (post.content && post.content.length > 0) {

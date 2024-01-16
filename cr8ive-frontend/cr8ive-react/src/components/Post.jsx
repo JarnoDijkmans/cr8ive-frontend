@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import LocalStorageService from '../services/LocalStorageService';
 import { useJwt } from 'react-jwt';
 import { Carousel } from 'react-responsive-carousel';
@@ -8,8 +8,7 @@ import LikeButton from '../components/LikeButton';
 import Hashtag from './Hashtag';
 import './styles/Post.css'
 
-const Post = ({ post, handlePostView }) => {
-  
+const Post = forwardRef(({ post }, ref) => {
   const [user, setUser] = useState(null);
   const token = LocalStorageService.get();
   const { decodedToken} = useJwt(token || null);
@@ -44,7 +43,7 @@ const Post = ({ post, handlePostView }) => {
     setLiked(newLiked);
     try {
       if (newLiked === true) {
-        likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
+        likeService.updateLikes(post.id, newLiked).then((response) => {
           setLikes(response.likeCount);
         });
       } else {
@@ -61,7 +60,7 @@ const Post = ({ post, handlePostView }) => {
    };
   
   return (
-        <div className='post-container'>
+        <div className='post-container' ref={ref}>
            <div className='media-section'>
               <div id={`post-${post.id}`} onClick={() => handlePostView(post.id)}>
                 <Carousel showThumbs={post.content.length > 1} className="carousel-container">
@@ -107,6 +106,6 @@ const Post = ({ post, handlePostView }) => {
         </div>
       </div>
     );
-};
+});
 
 export default Post;
