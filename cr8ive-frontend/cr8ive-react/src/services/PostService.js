@@ -79,6 +79,7 @@ const fetchAndUpdateFiles = async (postId, files) => {
   return updatedFiles;
 };
 
+
 function deletePost(postId){
   return axiosInstance.delete(`${hostname}/posts/${postId}`)
 }
