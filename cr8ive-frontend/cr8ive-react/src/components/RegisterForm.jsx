@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserService from '../services/UserService'
 import LoginService from '../services/LoginService';
+import Message from '../components/Message';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState(null);
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
@@ -30,11 +31,10 @@ const RegisterForm = () => {
 
   function confirmPassword() {
     if (newUser.password !== newUser.confirmPassword) {
-      setErrorMessage("Passwords do not match.");
+      setMessage( {isSuccess: false, text: "Passwords do not match."});
       return false;
     }
-    setErrorMessage('');
-    return true;
+    else{return true}
    }
 
    
@@ -59,7 +59,7 @@ const RegisterForm = () => {
         const { emailAddress } = response.user;
         console.log('User created successfully', response);
         await LoginService.login(emailAddress, newUser.password);
-        navigate('/search');
+        navigate('/');
       } else {
         console.error('User data not found in the response');
       }
@@ -70,7 +70,7 @@ const RegisterForm = () => {
 
   return (
     <div className="form-signUpForm">
-      <form onSubmit={handleRegister}>
+      <form id='form-register' onSubmit={handleRegister}>
         <h3>Sign Up</h3>
         <div className="profile-selector">
           <img
@@ -100,6 +100,7 @@ const RegisterForm = () => {
               type="text"
               placeholder='Firstname'
               className='firstname'
+              id='firstname-input'
               value={newUser.firstName}
               onChange={(e) => handleInputChange('firstName', e.target.value)}
               required
@@ -111,6 +112,7 @@ const RegisterForm = () => {
               type="text"
               placeholder='Lastname'
               className='lastname'
+              id='lastname-input'
               value={newUser.lastName}
               onChange={(e) => handleInputChange('lastName', e.target.value)}
               required
@@ -122,6 +124,7 @@ const RegisterForm = () => {
           <input
             type="email"
             placeholder='Email Address'
+            id='email-input'
             value={newUser.emailAddress}
             onChange={(e) => handleInputChange('emailAddress', e.target.value)}
             required
@@ -132,6 +135,7 @@ const RegisterForm = () => {
           <input
             type="date"
             placeholder='Birthdate'
+            id='birthdate-input'
             value={newUser.birthdate ? new Date(newUser.birthdate).toISOString().split('T')[0] : ''}
             onChange={(e) => handleInputChange('birthdate', e.target.value)}
             required
@@ -143,6 +147,7 @@ const RegisterForm = () => {
             type="password"
             placeholder='Password'
             value={newUser.password}
+            id='password-input' 
             onChange={(e) => handleInputChange('password', e.target.value)}
             required
           />
@@ -153,12 +158,17 @@ const RegisterForm = () => {
                 type='password'
                 placeholder='Confirm Password'
                 value={newUser.confirmPassword}
+                id='confirm-password-input'
                 onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                 required
             />     
         </div>
-        <button type="submit">Sign Up</button>
-        {errorMessage && <p className="error">{errorMessage}</p>}
+        <button id='submit-button-register' type="submit">Sign Up</button>
+        <div id='message-register'>
+          {message && (
+                <Message isSuccess={message.isSuccess} message={message.text} />
+          )}
+        </div>
       </form>
     </div>
   );

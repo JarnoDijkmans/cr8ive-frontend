@@ -52,7 +52,7 @@ function NavBar() {
             {location.pathname === "/YourPage" ? (
               <Logout />
             ) : (
-            <a href="/YourPage">You <img src={user.profilePicture} className="profile-image" /></a>
+            <a id="your-page-id" href="/YourPage">You <img src={user.profilePicture} className="profile-image" /></a>
             )}
           </ul>
         )}

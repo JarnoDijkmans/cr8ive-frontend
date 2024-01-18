@@ -3,9 +3,13 @@ import Select from 'react-select';
 
 function HashtagsInput({ name, value, handleInputChange }) {
   const allHashtags = [
-    { value: 1, label: 'Sculpting' },
-    { value: 2, label: 'Sketching' },
-    { value: 3, label: 'Painting' }
+    { value: 1, label: 'Photography' },
+    { value: 2, label: 'Painting' },
+    { value: 3, label: 'Writing' },
+    { value: 4, label: 'Graphic Design/Illustration' },
+    { value: 5, label: 'Graffiti' },
+    { value: 6, label: 'Sculpting' },
+    { value: 7, label: '3D Modeling' }
   ];
 
   const [selectedHashtags, setSelectedHashtags] = useState([]);

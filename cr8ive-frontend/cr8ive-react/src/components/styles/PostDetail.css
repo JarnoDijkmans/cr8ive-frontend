@@ -68,7 +68,7 @@
   }
 
   .edit-description-box {
-    width: 100%; /* Set a fixed width for the input box */
+    width: 100%; 
     box-sizing: border-box;
     padding: 8px;
     margin-top: 8px;

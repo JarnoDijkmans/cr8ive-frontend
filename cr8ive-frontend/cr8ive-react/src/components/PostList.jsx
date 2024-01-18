@@ -4,7 +4,6 @@ import PostService from '../services/PostService';
 import CreateNewPost from '../pages/CreatePostPage';
 import LocalStorageService from '../services/LocalStorageService';
 import PostDetail from './PostDetail';
-import Modal from 'react-modal';
 
 const PostList = ({ userId }) => {
   const [selectedNavItem, setSelectedNavItem] = useState('All');
@@ -78,7 +77,7 @@ const PostList = ({ userId }) => {
             const isVideo = firstContent.type.startsWith('video/');
 
             return (
-              <div key={index} className="gallery" onClick={() => handlePostClick(post.id)}>
+              <div key={index} className="gallery" id={`gallery-post-${post.id}`} onClick={() => handlePostClick(post.id)}>
                 {isImage ? (
                   <img
                     src={firstContent.url}

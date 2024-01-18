@@ -30,11 +30,12 @@ const LoginForm = () => {
 
   return (
     <div className="form-signInForm">
-      <form onSubmit={handleLogin}>
+      <form id='form-login' onSubmit={handleLogin}>
         <h3>Login</h3>
         <div>
           <label>Email Address:</label>
           <input
+            id='email-address-login'
             type="email"
             placeholder='Email Address'
             value={email}
@@ -45,6 +46,7 @@ const LoginForm = () => {
         <div>
           <label>Password:</label>
           <input
+            id='password-login'
             type="password"
             placeholder='Password'
             value={password}
@@ -52,8 +54,8 @@ const LoginForm = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
-        <div>
+        <button id='submit-button-login' type="submit">Login</button>
+        <div id='message-login'>
             {message && (
                 <Message isSuccess={message.isSuccess} message={message.text} />
             )}

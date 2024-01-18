@@ -34,7 +34,7 @@ return (
         </div>
         <div className="box-signup">
           <h2>New to Cr8ive?</h2>
-          <button className="signUpBtn" onClick={() => toggleForm(false)}>
+          <button id='signUpBtn-register' className="signUpBtn" onClick={() => toggleForm(false)}>
             Sign up here
           </button>
         </div>

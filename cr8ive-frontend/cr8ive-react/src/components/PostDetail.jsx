@@ -29,13 +29,17 @@ const PostDetail = ({ postId, onClose }) => {
     const editPost = () => {
       setIsEdit(true);
       setEditedDescription(post.description);
+      console.log("post", post)
     };
-
     const saveEditedPost = () => {
       PostService.updatePostDescription(postId, editedDescription)
         .then((response) => {
           setIsEdit(false);
-          post.description = response;
+          console.log("response", response)
+          setPost(prevPost => ({
+            ...prevPost,
+            description: response.description,
+          }));
         })
         .catch((error) => {
           console.error('Error updating post description:', error);
@@ -51,15 +55,24 @@ const PostDetail = ({ postId, onClose }) => {
         console.error("Error fetching post details:", error);
       });
 
-      if (decodedToken) {
-        console.log("roles:", decodedToken.roles)
-      }
-   }, [postId, decodedToken, post]);
+   }, [decodedToken]);
+
+   function formatDate(dateString) {
+    const options = { 
+      year: 'numeric', 
+      month: 'numeric', 
+      day: 'numeric', 
+      hour: 'numeric', 
+      minute: 'numeric', 
+    };
+    const formattedDate = new Date(dateString).toLocaleString('en-US', options);
+    return formattedDate;
+  }
   
    return post ? (
     <div className="post-detail-overlay">
       <div className="post-detail-content">
-          <div className="edit-description-box">
+          <div id='edit-description-box-id' className="edit-description-box">
           {isEdit ? (
             <input
               type="text"
@@ -69,7 +82,7 @@ const PostDetail = ({ postId, onClose }) => {
             />
           ) : (
             <div>
-              <h3>{post.creationDate}</h3>
+              <h2>{formatDate(post.creationDate)}</h2>
               <p>{post.description}</p>
             </div>
           )}
@@ -92,26 +105,26 @@ const PostDetail = ({ postId, onClose }) => {
             ) : null;
           })}
         </Carousel>
-        <button className="options" onClick={() => setIsOpen(!isOpen)}>
+        <button id="options-button-id" className="options" onClick={() => setIsOpen(!isOpen)}>
           <FontAwesomeIcon icon={faEllipsisV} />
         </button>
         {isOpen && decodedToken && (
-          <div className="additional-actions">
+          <div id="additional-actions-id" className="additional-actions" >
             {(post.userId === decodedToken.userId || decodedToken.roles.includes('MODERATOR')) && (
-              <button onClick={deletePost}>Delete Post</button>
+              <button id="delete-button-id" onClick={deletePost}>Delete Post</button>
             )}
             {(post.userId === decodedToken.userId) && (
               <div>
                 {isEdit ? (
-                  <button onClick={saveEditedPost}>Save</button>
+                  <button id="savePost-button-id" onClick={saveEditedPost}>Save</button>
                 ) : (
-                  <button onClick={editPost}>Edit Post</button>
+                  <button id="editPost-button-id" onClick={editPost}>Edit Post</button>
                 )}
               </div>
             )}
           </div>
         )}
-        <button onClick={onClose}>Close</button>
+        <button id="close-button-detail-id" onClick={onClose}>Close</button>
       </div>
     </div>
   ) : null;

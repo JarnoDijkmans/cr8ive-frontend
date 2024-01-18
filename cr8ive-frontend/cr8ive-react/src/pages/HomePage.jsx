@@ -58,11 +58,11 @@ const HomePage = () => {
     <div className='container-homepage'>
       <Headroom style={{ marginTop: headroomMargin }}>
         <div className="container-sections">
-          <div className="trending-section" onClick={handleTrendingClick}>
+          <div id='trending-section-homepage' className="trending-section" onClick={handleTrendingClick}>
             <h2>Trending</h2>
             <TrendingIcon />
           </div>
-          <div className="preferences-section" onClick={handlePreferencesClick}>
+          <div id='preference-section-homepage' className="preferences-section" onClick={handlePreferencesClick}>
             <h2>For You</h2>
           </div>
         </div>
