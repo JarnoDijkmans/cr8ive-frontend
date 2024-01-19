@@ -110,6 +110,18 @@ const getTrendingPosts = async(currentPage) => {
   return posts;
 }
 
+
+const getPostsByCategory = async(currentPage, categoryId) => {
+  const response = await axiosInstance.get(`${hostname}/posts/api/byCategory/${currentPage}/${categoryId}`);
+  const posts = response.data.post;
+  for (let post of posts) {
+    if (post.content && post.content.length > 0) {
+      post.content = await fetchAndUpdateFiles(post.id, post.content)
+    }
+  }
+  return posts;
+}
+
 const updatePostDescription = async(postId, description) => {
     const requestBody = {
       postId: postId,
@@ -135,5 +147,6 @@ export default {
   markPostAsSeenByUser,
   getLatestPostsforUser,
   getTrendingPosts, 
-  updatePostDescription
+  updatePostDescription,
+  getPostsByCategory
 };

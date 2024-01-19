@@ -10,8 +10,11 @@ const HomePage = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const hashTagId = queryParams.get('tag');
+
+  const categoryID = hashTagId ? hashTagId : null;
+
   const [headroomMargin, setHeadroomMargin] = useState('0px');
-  const [currentSection, setCurrentSection] = useState('preferences');
+  const [currentSection, setCurrentSection] = useState(categoryID ? 'byCategory' : 'preferences');
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
@@ -35,6 +38,8 @@ const HomePage = () => {
         return PostService.getLatestPostsforUser(page);
       case 'trending':
         return PostService.getTrendingPosts(page);
+      case 'byCategory':
+        return PostService.getPostsByCategory(page, categoryID);
       default:
         return PostService.getLatestPostsforUser(page);
     }
@@ -53,6 +58,10 @@ const HomePage = () => {
     setCurrentSection('preferences');
     setCurrentPage(0);
   };
+
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [categoryID])
 
   return (
     <div className='container-homepage'>
