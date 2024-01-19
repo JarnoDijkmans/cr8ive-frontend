@@ -178,15 +178,20 @@ button[type="submit"]{
 
 .profile-selector {
     width: 150px;
-    height: 150px;
     overflow: hidden;
     border: none;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 10px;
+  }
+
+  label.file-label{
+    font-size: 10px;
+    text-decoration:underline;
   }
   
   .rounded-image {

@@ -58,19 +58,27 @@ const HomePage = () => {
     <div className='container-homepage'>
       <Headroom style={{ marginTop: headroomMargin }}>
         <div className="container-sections">
-          <div id='trending-section-homepage' className="trending-section" onClick={handleTrendingClick}>
-            <h2>Trending</h2>
+          <div
+            id='trending-section-homepage'
+            className={`trending-section ${currentSection === 'trending' ? 'selected' : ''}`}
+            onClick={handleTrendingClick}
+          >
+            <h2 style={{ fontSize: currentSection === 'trending' ? '22px' : '14px' }}>Trending</h2>
             <TrendingIcon />
           </div>
-          <div id='preference-section-homepage' className="preferences-section" onClick={handlePreferencesClick}>
-            <h2>For You</h2>
+          <div
+            id='preference-section-homepage'
+            className={`preferences-section ${currentSection === 'preferences' ? 'selected' : ''}`}
+            onClick={handlePreferencesClick}
+          >
+            <h2 style={{ fontSize: currentSection === 'preferences' ? '22px' : '14px' }}>For You</h2>
           </div>
         </div>
       </Headroom>
       <PostsSection
         fetchMethod={(page) => fetchMethod(page)}
         currentSection={currentSection}
-        currentPage= {currentPage}
+        currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
     </div>

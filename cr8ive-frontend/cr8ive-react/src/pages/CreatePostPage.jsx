@@ -54,7 +54,7 @@ const CreatePostPage = ({ userId }) => {
 
     return (
         <div className="form">
-          <h2>Create a New Post</h2>
+          <h2>Create a new post</h2>
           <form onSubmit={handleSubmit}>
             <ContentInput
               name="content"

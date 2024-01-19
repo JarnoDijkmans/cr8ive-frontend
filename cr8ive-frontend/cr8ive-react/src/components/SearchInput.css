@@ -1,3 +1,5 @@
+
+
 .search-container {
     width: 30vw;
     position: relative;
@@ -9,7 +11,8 @@
     font-weight: 600;
     font-size: 17px;
     padding: 12.3px 4%;
-    background-image: url(https://icons.veryicon.com/png/o/commerce-shopping/small-icons-with-highlights/search-260.png);
+    background-image: url('../images/search-icon.png');
+    background-size: 20px !important;
     box-sizing: border-box;
     background-position: 95%;
     background-size: contain;
@@ -50,7 +53,7 @@
     width: 100%;
     font-weight: 600;
     padding: 12.3px 4%;
-    background-image: url(https://icons.veryicon.com/png/o/commerce-shopping/small-icons-with-highlights/search-260.png);
+    background-image: url('../images/search-icon.png');
     background-position: 33%;
     background-repeat: no-repeat;
     background-color: #132F35;
@@ -65,7 +68,7 @@
     width: 100%;
     font-weight: 600;
     padding: 12.3px 4%;
-    background-image: url(https://icons.veryicon.com/png/o/commerce-shopping/small-icons-with-highlights/search-260.png);
+    background-image: url('../images/search-icon.png');
     background-position: 33%;
     background-repeat: no-repeat;
     background-color: #132F35;

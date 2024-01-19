@@ -15,7 +15,7 @@ const PostList = ({ userId }) => {
   const navItems = storedUser === userId
     ? [
         { id: 'All', label: 'All' },
-        { id: 'CreateNewPost', label: 'Create-new-Post' },
+        { id: 'CreateNewPost', label: 'Create new post' },
       ]
     : [{ id: 'All', label: 'All' }];
 

@@ -47,7 +47,7 @@ const Post = forwardRef(({ post }, ref) => {
           setLikes(response.likeCount);
         });
       } else {
-        likeService.updateLikes(post.id, post.userId, newLiked).then((response) => {
+        likeService.updateLikes(post.id, newLiked).then((response) => {
           setLikes(response.likeCount);
         });
       }
@@ -62,7 +62,7 @@ const Post = forwardRef(({ post }, ref) => {
   return (
         <div className='post-container' ref={ref}>
            <div className='media-section'>
-              <div id={`post-${post.id}`} onClick={() => handlePostView(post.id)}>
+              <div id={`post-${post.id}`}>
                 <Carousel showThumbs={post.content.length > 1} className="carousel-container">
                   {post.content.map((content, index) => {
                     const isImage = content.type.startsWith('image/');

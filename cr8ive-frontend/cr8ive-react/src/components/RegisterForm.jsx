@@ -83,6 +83,7 @@ const RegisterForm = () => {
             alt="Profile"
             className="rounded-image"
           />
+          <label className='file-label'>Upload your profile picture here</label>
          <input
           id="file-input" 
           type="file" 
@@ -95,10 +96,10 @@ const RegisterForm = () => {
         </div>
         <div className="name-inputs">
           <div className="input-field">
-            <label>Firstname:</label>
+            <label>First name:</label>
             <input
               type="text"
-              placeholder='Firstname'
+              placeholder='First name'
               className='firstname'
               id='firstname-input'
               value={newUser.firstName}
@@ -107,10 +108,10 @@ const RegisterForm = () => {
             />
           </div>
           <div className="input-field">
-            <label>Lastname:</label>
+            <label>Last name:</label>
             <input
               type="text"
-              placeholder='Lastname'
+              placeholder='Last name'
               className='lastname'
               id='lastname-input'
               value={newUser.lastName}
@@ -120,10 +121,10 @@ const RegisterForm = () => {
           </div>
         </div>
         <div>
-          <label>Email Address:</label>
+          <label>Email address:</label>
           <input
             type="email"
-            placeholder='Email Address'
+            placeholder='Email address'
             id='email-input'
             value={newUser.emailAddress}
             onChange={(e) => handleInputChange('emailAddress', e.target.value)}
@@ -153,7 +154,7 @@ const RegisterForm = () => {
           />
         </div>
         <div>
-            <label>Confirm Password</label>
+            <label>Confirm password</label>
             <input
                 type='password'
                 placeholder='Confirm Password'

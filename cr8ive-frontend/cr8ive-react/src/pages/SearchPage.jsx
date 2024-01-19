@@ -37,12 +37,12 @@ function SearchPage() {
     },
     {
       id: 6,
-      name: 'sculpting',
+      name: 'Sculpting',
       image: '../src/images/Sculpting.jpeg',
     },
     {
       id: 7,
-      name: '3d modeling',
+      name: '3D Modeling',
       image: '../src/images/3D-Modeling.jpg'
     }
 

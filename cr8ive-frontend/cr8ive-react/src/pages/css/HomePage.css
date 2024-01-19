@@ -6,10 +6,12 @@
   .trending-section h2 {
     margin-right: 10px; 
     text-decoration: underline;
+    cursor: pointer;
   }
 
   .preferences-section h2 {
     text-decoration: underline;
+    cursor: pointer;
   }
   
   .container-sections {

@@ -8,6 +8,8 @@
   margin-bottom: 20px;
   flex: 0 1 calc(30% - 20px); 
   margin: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .card img {
@@ -24,6 +26,7 @@
   font-size: 1em;
   margin-bottom: 0;
   text-align: center;
+  color: lightblue;
 }
 
 .row {
